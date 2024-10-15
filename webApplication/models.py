@@ -24,6 +24,7 @@ class MedicalBox(models.Model):
     id = models.AutoField(primary_key=True)
     code = models.CharField(max_length=5, unique=True, blank=True)
     weight = models.CharField(max_length=255)
+    notes = models.TextField(blank=True, null=True)
     idPatient = models.ForeignKey(Patient, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):

@@ -106,7 +106,7 @@
         <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2" aria-current="page" href="/">
+              <a class="nav-link text-dark d-flex align-items-center gap-2" aria-current="page" href="/">
                 <svg class="bi"><use xlink:href="#house-fill"/></svg>
                 Accueil
               </a>
@@ -118,7 +118,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
+              <a class="nav-link text-dark d-flex align-items-center gap-2" href="#">
                 <svg class="bi"><use xlink:href="#puzzle"/></svg>
                 Heures de prise
               </a>
@@ -130,7 +130,7 @@
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Accueil</h1>
+        <h1 class="h2 titlePage">Boite Médicament</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           Dr Duran
         </div>
@@ -159,13 +159,17 @@
                           <label for="weight">Poids(g)</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <select class="form-select" required name="idPatient" id="idPatient" aria-label="Floating label select example">
-                              {% for patient in patients %}
-                                <option value="{{patient.id}}">{{patient.firstName}} {{patient.lastName}}</option>
-                              {% endfor %}
-                            </select>
-                            <label for="idPatient">Patient(e)</label>
-                          </div>
+                          <select class="form-select" required name="idPatient" id="idPatient" aria-label="Floating label select example">
+                            {% for patient in patients %}
+                              <option value="{{patient.id}}">{{patient.firstName}} {{patient.lastName}}</option>
+                            {% endfor %}
+                          </select>
+                          <label for="idPatient">Patient(e)</label>
+                        </div>
+                        <div class="form-group">
+                          <textarea class="form-control" id="notes" name="notes" rows="5" placeholder="Notes (optionel)"></textarea>
+                          <label for="notes">Note :</label>
+                        </div>
                         <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Enregistrer</button>
                       </form>
                     </div>
@@ -180,7 +184,10 @@
                 <div class="col p-4 d-flex flex-column position-static">
                   <strong class="d-inline-block mb-2 text-primary-emphasis">Code: {{box.code}}</strong>
                   <div class="mb-1 text-body-secondary">Poids: {{box.weight}}g</div>
-                  <p class="card-text mb-auto">Patient(e): {{box.idPatient}}</p>
+                  <p class="card-text mb-auto">Patient(e): {{box.idPatient}} 
+                    {% if box.notes %}
+                      <br>Notes: {{box.notes}}</p>
+                    {% endif %}
                 </div>
               </div>
             </div>
