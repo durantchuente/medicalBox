@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.patient, name='patient'),
     path('medicalBox/', views.medicalBox, name='medicalBox'),
+    path('hourMedication/', views.hourMedication, name='hourMedication'),
 ]

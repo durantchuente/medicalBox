@@ -11,7 +11,8 @@
     <title>Boite a médicament</title>
 
 <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
+<link rel="stylesheet" href="{% static 'assets/css/select2.min.css' %}" />
+<link rel="stylesheet" href="{% static 'assets/css/select2-bootstrap-5-theme.min.css' %}" />
 <meta name="theme-color" content="#712cf9">
 <link href="{% static 'assets/css/dashboard.css' %}" rel="stylesheet">
 <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
@@ -118,7 +119,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-dark d-flex align-items-center gap-2" href="#">
+              <a class="nav-link text-dark d-flex align-items-center gap-2" href="/hourMedication">
                 <svg class="bi"><use xlink:href="#puzzle"/></svg>
                 Heures de prise
               </a>
@@ -159,6 +160,10 @@
                           <label for="weight">Poids(g)</label>
                         </div>
                         <div class="form-floating mb-3">
+                          <input type="text" class="form-control rounded-3" required name="address" id="address" placeholder="Adresse">
+                          <label for="address">Adresse</label>
+                        </div>
+                        <div class="form-floating mb-3">
                           <select class="form-select" required name="idPatient" id="idPatient" aria-label="Floating label select example">
                             {% for patient in patients %}
                               <option value="{{patient.id}}">{{patient.firstName}} {{patient.lastName}}</option>
@@ -166,10 +171,19 @@
                           </select>
                           <label for="idPatient">Patient(e)</label>
                         </div>
-                        <div class="form-group">
-                          <textarea class="form-control" id="notes" name="notes" rows="5" placeholder="Notes (optionel)"></textarea>
-                          <label for="notes">Note :</label>
+                        <div class="form-floating mb-3">
+                          <select class="form-select" id="multiple-select-field"  multiple required name="hours">
+                            {% for hour in hours %}
+                              <option value="{{hour.id}}">{{hour.name}}</option>
+                            {% endfor %}
+                          </select>
+                          <label for="hours">Heure(s)</label>
                         </div>
+                        <div class="form-group">
+                          <label for="notes">Note :</label>
+                          <textarea class="form-control" id="notes" name="notes" rows="5" placeholder="Notes (optionel)"></textarea>
+                        </div>
+                        <br> <br>
                         <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Enregistrer</button>
                       </form>
                     </div>
@@ -185,6 +199,11 @@
                   <strong class="d-inline-block mb-2 text-primary-emphasis">Code: {{box.code}}</strong>
                   <div class="mb-1 text-body-secondary">Poids: {{box.weight}}g</div>
                   <p class="card-text mb-auto">Patient(e): {{box.idPatient}} 
+                    {% if box.hours %}
+                      {% for hour in box.hours.all %}
+                        {{hour.name}}: {{hour.time|date:"H:i"}}</p>
+                      {% endfor %}
+                    {% endif %}
                     {% if box.notes %}
                       <br>Notes: {{box.notes}}</p>
                     {% endif %}
@@ -197,5 +216,8 @@
   </div>
 </div>
 <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+<script src="{% static 'assets/js/select2.min.js' %}"></script>
+<script src="{% static 'assets/js/style.js' %}"></script>
 </body>
 </html>

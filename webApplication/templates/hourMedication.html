@@ -106,7 +106,7 @@
         <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="/">
+              <a class="nav-link d-flex text-dark align-items-center gap-2" aria-current="page" href="/">
                 <svg class="bi"><use xlink:href="#house-fill"/></svg>
                 Accueil
               </a>
@@ -114,11 +114,11 @@
             <li class="nav-item">
               <a class="nav-link text-dark d-flex align-items-center gap-2" href="/medicalBox">
                 <svg class="bi"><use xlink:href="#file-earmark"/></svg>
-                    Boite Médicament
+                  Boite Médicament
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-dark d-flex align-items-center gap-2" href="/hourMedication">
+              <a class="nav-link d-flex align-items-center gap-2 active" href="/hourMedication">
                 <svg class="bi"><use xlink:href="#puzzle"/></svg>
                 Heures de prise
               </a>
@@ -136,10 +136,10 @@
         </div>
       </div>
 
-      <h2 class="pb-4">Patients</h2>
+      <h2 class="pb-4">Heures de medicaments</h2>
       <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Ajouter un patient
+            Ajouter une heure
         </button>
         
         <!-- Modal -->
@@ -147,7 +147,7 @@
             <div class="modal-dialog">
                 <div class="modal-content rounded-4 shadow">
                     <div class="modal-header p-5 pb-4 border-bottom-0">
-                      <h1 class="fw-bold mb-0 fs-3 text-center">Ajout de patient</h1>
+                      <h1 class="fw-bold mb-0 fs-3 text-center">Ajout d'heure</h1>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
               
@@ -155,28 +155,17 @@
                       <form class="" method="post">
                         {% csrf_token %}
                         <div class="form-floating mb-3">
-                          <input type="text" required class="form-control rounded-3" name="firstName" id="firstName" placeholder="Prénom">
-                          <label for="firstName">Prénom</label>
+                          <input type="time" required class="form-control rounded-3" name="time" id="time" placeholder="Heure">
+                          <label for="time">Heure</label>
                         </div>
                         <div class="form-floating mb-3">
-                          <input type="text" required class="form-control rounded-3" name="lastName" id="lastName" placeholder="Nom">
-                          <label for="lastName">Nom</label>
+                          <input type="text" required class="form-control rounded-3" name="name" id="name" placeholder="Nom">
+                          <label for="name">Nom</label>
+                        </div><br>
+                        <div class="form-group">
+                          <label for="note">Note :</label>
+                          <textarea class="form-control" id="note" name="note" rows="5" placeholder="Note (optionel)"></textarea>
                         </div>
-                        <div class="form-floating mb-3">
-                          <input type="email" required class="form-control rounded-3" name="email" id="email" placeholder="Email">
-                          <label for="email">Email address</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                          <input type="tel" required class="form-control rounded-3" name="phoneNumber" id="phoneNumber">
-                          <label for="phoneNumber">Téléphone</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <select class="form-select" required name="gender" id="gender" aria-label="Floating label select example">
-                              <option value="M">Homme</option>
-                              <option value="F">Femme</option>
-                            </select>
-                            <label for="gender">Genre</label>
-                          </div>
                         <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Enregistrer</button>
                       </form>
                     </div>
@@ -185,21 +174,23 @@
         </div>
         <br><br>
         <div class="row mb-2">
-            {% for patient in patients %}
+            {% for hour in hours %}
             <div class="col-md-4">
                 <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                     <div class="col p-4 d-flex flex-column position-static">
-                        <strong class="d-inline-block mb-2 text-primary-emphasis">{{ patient.firstName }} {{ patient.lastName }}</strong>
-                        <h3 class="mb-0">
+                        <strong class="d-inline-block mb-2 text-primary-emphasis">{{ hour.name }}</strong>
+                        <!-- <h3 class="mb-0">
                         {% if patient.gender == 'M' %}
                             Homme
                         {% else %}
                             Femme
-                        {% endif %}</h3>
-                        <div class="mb-1 text-body-secondary">Téléphone: {{ patient.phoneNumber }}</div>
-                        <p class="card-text mb-auto">
-                            Email: {{patient.email}}
-                        </p>
+                        {% endif %}</h3> -->
+                        <div class="mb-1 text-body-secondary">Heure: {{ hour.time|time:"H:i" }}</div>
+                        {% if hour.note %}
+                          <p class="card-text mb-auto">
+                              Note: {{hour.note}}
+                          </p>
+                        {% endif %}
                     </div>
                 </div>
             </div>

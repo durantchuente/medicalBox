@@ -76,8 +76,14 @@ WSGI_APPLICATION = 'boxMedication.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',  # Utiliser le moteur PostgreSQL
+        'NAME': 'box_medication',        # Le nom de votre base de données
+        'USER': 'postgres',                # Nom d'utilisateur de la base de données
+        'PASSWORD': 'qwerty',           # Mot de passe de l'utilisateur
+        'HOST': 'localhost',                        # Hôte de la base de données (localhost pour une base en local)
+        'PORT': '5432',
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
