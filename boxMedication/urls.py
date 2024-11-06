@@ -25,5 +25,5 @@ urlpatterns = [
     path('hourMedication/', views.hourMedication, name='hourMedication'),
     path('dataBox/', views.data, name='dataBox'),
     path('api-auth/', include('rest_framework.urls')),
-    path('datas/', include('webApplication.urls'))
+    path('api/', include('webApplication.urls'))
 ]

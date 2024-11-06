@@ -48,3 +48,4 @@ class DataMedication(models.Model):
     tendance = models.CharField(max_length=1, choices=TENDANCE_CHOICES)
     DateTime = models.DateTimeField()
     medical_box = models.ForeignKey(MedicalBox, on_delete=models.CASCADE, related_name="related_entries")
+    

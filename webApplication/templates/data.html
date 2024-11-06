@@ -1,22 +1,22 @@
 {% load static %}
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
-  <head>
+<head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.122.0">
-    <title>Accueil</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.122.0">
+  <title>Accueil</title>
 
-<link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-<meta name="theme-color" content="#712cf9">
-<link href="{% static 'assets/css/dashboard.css' %}" rel="stylesheet">
-<link href="{% static 'assets/css/dataTables.bootstrap5.min.css' %}" rel="stylesheet">
-<link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
-  </head>
+  <meta name="theme-color" content="#712cf9">
+  <link href="{% static 'assets/css/dashboard.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/dataTables.bootstrap5.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+</head>
   <body>
     <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
       <symbol id="check2" viewBox="0 0 16 16">
@@ -129,7 +129,6 @@
             </li>
             <li class="nav-item">
               <a class="nav-link d-flex align-items-center active gap-2" href="/dataBox">
-                <!-- <svg class="bi"><use xlink:href="#database"/></svg> -->
                 <svg class="bi"><use xlink:href="#database"/></svg>
                 Data
               </a>
@@ -163,8 +162,16 @@
                 <tbody>
                     {% for item in datas %}
                     <tr>
-                        <td>{{ item.weight }}</td>
-                        <td>{{ item.tendance }}</td>
+                        <td>
+                          {{ item.weight }}g
+                          </td>
+                        <td>
+                          {% if item.tendance == "H" %}
+                            Augmentation
+                          {% else %}
+                              Réduction
+                          {% endif %}
+                        </td>
                         <td>{{ item.medical_box.address }}</td>
                         <td>{{ item.DateTime|date:"d/m/Y H:i" }}</td>
                     </tr>

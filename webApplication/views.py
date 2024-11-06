@@ -3,22 +3,22 @@ from django.shortcuts import get_object_or_404, redirect, render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework import permissions
 from webApplication.forms import HourMedicationForm, MedicalBoxForm, PatientForm
 from webApplication.models import DataMedication, HourMedication, MedicalBox, Patient
+from webApplication.permissions import IsAdminAuthenticated
 from .serializers import DataMedicationSerializer
 
 class DataMedicationListApiView(APIView):
     # add permission to check if user is authenticated
     # permission_classes = [permissions.IsAuthenticated]
 
+    permission_classes = [IsAdminAuthenticated]
     # 1. List all
     def get(self, request, *args, **kwargs):
         '''
         List all the data items for box medication
         '''
         datas = DataMedication.objects.all()
-        datas = DataMedication.objects.filter(id = request.data.id)
         serializer = DataMedicationSerializer(datas, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -38,11 +38,18 @@ class DataMedicationListApiView(APIView):
         serializer = DataMedicationSerializer(data=data)
         # serializer = DataMedicationSerializer(data=data)
         if serializer.is_valid():
-            # serializer.save()
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class CheckUserLoginStatus(APIView):
+    def get(self, request):
+        # Vérifie si l'utilisateur est authentifié
+        is_authenticated = request.user.is_authenticated
+        # Renvoie true si l'utilisateur est authentifié, false sinon
+        return Response({"data": is_authenticated})
+    
 def data(request):
     datas = DataMedication.objects.all()
     return render(request, 'data.html', {'datas': datas})
