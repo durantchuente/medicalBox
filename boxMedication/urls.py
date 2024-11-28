@@ -23,7 +23,10 @@ urlpatterns = [
     path('', views.patient, name='patient'),
     path('medicalBox/', views.medicalBox, name='medicalBox'),
     path('hourMedication/', views.hourMedication, name='hourMedication'),
+    path('chart/', views.chart, name='chart'),
     path('dataBox/', views.data, name='dataBox'),
     path('api-auth/', include('rest_framework.urls')),
-    path('api/', include('webApplication.urls'))
+    path('api/', include('webApplication.urls')),
+    path('login/', views.user_login, name='login'),
+    path('logout/', views.user_logout, name='logout')
 ]

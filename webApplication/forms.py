@@ -1,17 +1,22 @@
 from django import forms
-from .models import HourMedication, MedicalBox, Patient
+from .models import DataMedication, HourMedication, MedicalBox, Patient
 
 class PatientForm(forms.ModelForm):
     class Meta:
         model = Patient
-        fields = '__all__'
+        fields = ['firstName', 'lastName', 'gender', 'phoneNumber', 'email']
 
 class MedicalBoxForm(forms.ModelForm):
     class Meta:
         model = MedicalBox
-        fields = '__all__'
+        fields = ['address', 'weight', 'notes', 'idPatient', 'hours']
 
 class HourMedicationForm(forms.ModelForm):
     class Meta:
         model = HourMedication
-        fields = '__all__'
+        fields = ['name', 'time', 'note']
+
+class DataMedicationForm(forms.ModelForm):
+    class Meta:
+        model = DataMedication
+        fields = ['weight', 'tendance']

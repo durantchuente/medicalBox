@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-d%am#jst+ao=46vl&kbd3gsr4+at)ns1ejim*cj)aoi8=ytp0h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["192.168.20.252", "127.0.0.1", "192.168.20.113"]
+ALLOWED_HOSTS = ["192.168.20.252", "127.0.0.1", "192.168.20.113", "localhost"]
 
 
 # Application definition
@@ -50,7 +50,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=200),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
@@ -83,7 +83,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'boxMedication.wsgi.application'
-
+LOGIN_URL = '/login/'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
