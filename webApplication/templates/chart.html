@@ -103,7 +103,7 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary">
+    <div class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary sidebarMenu">
       <div class="offcanvas-md offcanvas-end bg-body-tertiary" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
         <div class="offcanvas-header">
           <h5 class="offcanvas-title" id="sidebarMenuLabel">Données</h5>
@@ -150,7 +150,8 @@
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2 titlePage">Accueil</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-          Dr Duran
+          Dr Duran 
+          <a href="/logout" class="" style="text-decoration: none;padding-left: 15px;">Se déconnecter</a>
         </div>
       </div>
 
@@ -180,7 +181,8 @@
                 label: 'Poids de la boite',
                 data: {{ weights|safe }},  // Les montants récupérés depuis la vue
                 fill: false,
-                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgb(54, 162, 235)',
                 tension: 0.1
             }]
         },
