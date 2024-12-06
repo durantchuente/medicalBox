@@ -61,7 +61,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
 ]
 
 ROOT_URLCONF = 'boxMedication.urls'
@@ -81,6 +81,11 @@ TEMPLATES = [
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'webApplication.auth_backends.PostgresAuthBackend',
+]
+
 
 WSGI_APPLICATION = 'boxMedication.wsgi.application'
 LOGIN_URL = '/login/'

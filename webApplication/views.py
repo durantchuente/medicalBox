@@ -3,15 +3,15 @@ from django.shortcuts import get_object_or_404, redirect, render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from webApplication.forms import DataMedicationForm, HourMedicationForm, MedicalBoxForm, PatientForm
+from webApplication.forms import HourMedicationForm, MedicalBoxForm, PatientForm
 from webApplication.models import DataMedication, HourMedication, MedicalBox, Patient, User
 from webApplication.permissions import IsAdminAuthenticated
 from .serializers import DataMedicationSerializer
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.db import connections
 from django.contrib.auth.decorators import login_required
+from .decorators import handle_db_permission_error
 
 class DataMedicationListApiView(APIView):
     # add permission to check if user is authenticated
@@ -58,13 +58,13 @@ class CheckUserLoginStatus(APIView):
         # Renvoie true si l'utilisateur est authentifié, false sinon
         return Response({"data": is_authenticated})
 
+@handle_db_permission_error
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
-
             login(request, user)
             messages.success(request, "Connexion réussie !")
             return redirect('patient')  # Redirigez vers la page d'accueil après connexion
@@ -78,23 +78,28 @@ def user_logout(request):
     return redirect('login')  # Redirigez vers la page de connexion après déconnexion
 
 @login_required
+@handle_db_permission_error
 def data(request):
     return render(request, 'data.html')
 
 @login_required
+@handle_db_permission_error
 def chart(request):
-    datas = DataMedication.objects.filter(user=request.user)
+    # datas = DataMedication.objects.filter(user=request.user)
+    datas = DataMedication.objects.all()
     weights = [data.weight for data in datas]
     dates = [data.DateTime.strftime('%Y-%m-%d %H:%M:%S') for data in datas]
     return render(request, 'chart.html', {'weights': weights, 'dates': dates})
 
 def get_data(request):
-    datas = DataMedication.objects.filter(user=request.user).values('weight', 'tendance', 'DateTime', 'medical_box__address')
+    # datas = DataMedication.objects.filter(user=request.user).values('weight', 'tendance', 'DateTime', 'medical_box__address')
+    datas = DataMedication.objects.all().values('weight', 'tendance', 'DateTime', 'medical_box__address')
     data_list = list(datas)  # Convertir la QuerySet en une liste de dictionnaires
     # serializer = DataMedicationSerializer(data_list, many=True)
     return JsonResponse({'data': data_list})
 
 @login_required
+@handle_db_permission_error
 def patient(request):
     if request.method == 'POST':
         form = PatientForm(request.POST)
@@ -107,10 +112,12 @@ def patient(request):
             print(form.errors)
     else:
         form = PatientForm()
-    patients = Patient.objects.filter(user=request.user)
+    # patients = Patient.objects.filter(user=request.user)
+    patients = Patient.objects.all()
     return render(request, 'patient.html', {'form': form, 'patients': patients})
 
 @login_required
+@handle_db_permission_error
 def hourMedication(request):
     if request.method == 'POST':
         form = HourMedicationForm(request.POST)
@@ -123,10 +130,12 @@ def hourMedication(request):
             print(form.errors)
     else:
         form = HourMedicationForm()
-    hours = HourMedication.objects.filter(user=request.user)
+    # hours = HourMedication.objects.filter(user=request.user)
+    hours = HourMedication.objects.all()
     return render(request, 'hourMedication.html', {'form': form, 'hours': hours})
 
 @login_required
+@handle_db_permission_error
 def medicalBox(request):
     if request.method == 'POST':
         form = MedicalBoxForm(request.POST)
@@ -143,9 +152,12 @@ def medicalBox(request):
             print(form.errors)
     else:
         form = MedicalBoxForm()
-    boxes = MedicalBox.objects.filter(user=request.user)
-    patients = Patient.objects.filter(user=request.user)
-    hours = HourMedication.objects.filter(user=request.user)
+    # boxes = MedicalBox.objects.filter(user=request.user)
+    # patients = Patient.objects.filter(user=request.user)
+    # hours = HourMedication.objects.filter(user=request.user)
+    boxes = MedicalBox.objects.all()
+    patients = Patient.objects.all()
+    hours = HourMedication.objects.all()
     for box in boxes:
         hours = box.hours.all()  # Récupérer toutes les heures associées
         print(f"Box: {box.address}, Hours: {[hour.time.strftime('%H:%M') for hour in hours]}")
